@@ -36,15 +36,17 @@ def decode_walk(walk):
     dx = 0
     dy = 0
    
-    for step in walk:
-        if(step == 'N'):
+    for direction in walk:
+        if(direction == 'N'):
             dy += 1
-        elif(step == 'S'):
+        elif(direction == 'S'):
             dy -= 1
-        elif(step == 'E'):
+        elif(direction == 'E'):
             dx += 1
-        else:
+        elif(direction == 'W'):
             dx -= 1
+        else:
+            raise KeyError("Invalid direction")
     return dx, dy
 
 
@@ -80,14 +82,14 @@ def do_walk(blocks, dist = distance_manhattan):
     distance = dist((0, 0), decode_walk(walk))
     return (walk, distance)
 
-def monte_carlo_walk_analysis(max_blocks, repitions = 10000):
+def monte_carlo_walk_analysis(max_blocks, repetitions = 10000):
     
     """
-    Generates walks from length 1 to block count with n repitions
+    Generates walks from length 1 to block count with n repetitions
     
     Parameters:
         max_blocks: Max block count which should be generated
-        repitions: Count how often should each block count generation repeated
+        repetitions: Count how often should each block count generation repeated
         
     Returns:
         Dictionary with max length as key and generated walks and tuples as tuple
@@ -95,20 +97,91 @@ def monte_carlo_walk_analysis(max_blocks, repitions = 10000):
     
     if(max_blocks < 1):
         raise ValueError("Max blocks have to be greater zero")
-    if(repitions < 1):
-          raise ValueError("Repition has to be greater zero")
+    if(repetitions < 1):
+          raise ValueError("Repetition has to be greater zero")
     
     walks = {}
-    for blocks in range(1, max_blocks + 1):
-        current_walks = [do_walk(blocks) for _ in range(repitions)]
-        walks[max(x[1] for x in current_walks)] = current_walks  
+    for blocks in range(max_blocks):
+        current_walks = [do_walk(blocks + 1) for _ in range(repetitions)]
+        walks[max(walk[1] for walk in current_walks)] = current_walks  
     return walks
 
-walks = generate_walk(10)
-endPoint = decode_walk(walks)
 
-print(distance_manhattan((0,0), endPoint))
-print(monte_carlo_walk_analysis(2, 10))
+def test_generate_walk():
+    
+    print('-- test_generate_walk --')
+    
+    print('- With default parameter')
+    print(list(generate_walk()))
+    
+    for value in [-1, 1, 10]:
+        print(f'- With value={value}')
+        try:
+            print(list(generate_walk(value)))
+        except ValueError as error:
+            print(f'Exception thrown: {error}')
+
+def test_decode_walk():
+    
+    print('-- test_decode_walk --')
+    
+    print('- Empty list')
+    print(decode_walk([]))
+    
+    print('With list ["N", "N", "E", "E"]')
+    print(decode_walk(['N', 'N', 'E', 'E']))
+    
+    try:
+        print('- With invalid value')
+        print(decode_walk(['N','O']))
+    except KeyError as error:
+         print(f'Exception thrown: {error}')
+         
+def test_distance_manhattan():
+    
+    print('-- test_distance_manhattan --')
+    
+    print('- With same start and end points')
+    print(distance_manhattan((0, 0), (0, 0)))
+    
+    print('- With start point(0, 0) end point(2, 3)')
+    print(distance_manhattan((0, 0), (2, 3)))
+    
+def test_do_walk():
+    print('-- test_do_walk --')
+    
+    print('- With valid parameters')
+    print(do_walk(10))
+    
+    print('- With fake distance function')
+    print(do_walk(5, lambda start, end: 0))
+
+def test_monte_carlo_walk_analysis():
+    print('-- test_monte_carlo_walk_analysis --')
+    
+    print('- With valid parameters')
+    print(monte_carlo_walk_analysis(5, 5))
+    
+    try:
+        print('- Test with invalid parameter for max_blocks')
+        print(monte_carlo_walk_analysis(-1))
+    except Exception as error:
+        print(f'Exception thrown: {error}')
+        
+    try:
+        print('- Test with invalid parameter for repetition')
+        print(monte_carlo_walk_analysis(10, -1))
+    except Exception as error:
+        print(f'Exception thrown: {error}')
+
+test_generate_walk()
+test_decode_walk()
+test_distance_manhattan()
+test_do_walk()
+test_monte_carlo_walk_analysis()
+
+# print(distance_manhattan((0,0), endPoint))
+# print(monte_carlo_walk_analysis(2, 10))
 
 
         
