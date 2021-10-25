@@ -4,6 +4,7 @@
 """
 
 import random
+import pprint
 
 directions = ('N', 'E', 'S', 'W')
 
@@ -159,7 +160,7 @@ def test_monte_carlo_walk_analysis():
     print('-- test_monte_carlo_walk_analysis --')
     
     print('- With valid parameters')
-    print(monte_carlo_walk_analysis(5, 5))
+    pprint.pprint(monte_carlo_walk_analysis(5, 5))
     
     try:
         print('- Test with invalid parameter for max_blocks')
