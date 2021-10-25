@@ -92,7 +92,7 @@ def monte_carlo_walk_analysis(max_blocks, repetitions = 10000):
         repetitions: Count how often should each block count generation repeated
         
     Returns:
-        Dictionary with max length as key and generated walks and tuples as tuple
+        Dictionary with max length as key and generated walks and distances as tuple
     """
     
     if(max_blocks < 1):
@@ -101,9 +101,8 @@ def monte_carlo_walk_analysis(max_blocks, repetitions = 10000):
           raise ValueError("Repetition has to be greater zero")
     
     walks = {}
-    for blocks in range(max_blocks):
-        current_walks = [do_walk(blocks + 1) for _ in range(repetitions)]
-        walks[max(walk[1] for walk in current_walks)] = current_walks  
+    for blocks in range(1, max_blocks + 1):
+        walks[blocks] = [do_walk(blocks) for _ in range(repetitions)]  
     return walks
 
 

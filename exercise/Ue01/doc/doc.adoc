@@ -15,7 +15,8 @@
 == Lösungsidee
 Für die 4 Richtungen muss ein Tupel directions erstellt werden.
 
-Bei der *generate_walk* Methode muss zu Beginn überprüft werden, ob der Eingangsparameter block valide ist. Falls dieser kleiner 1 ist, wird eine Exception geworfen. Danach wird in einer Schleife n mal ein zufälliger Wert von directions mittels yield zurückgegeben, um den Vorteil von Generatoren auszunutzen.
+Bei der *generate_walk* Methode muss zu Beginn überprüft werden, ob der Eingangsparameter block valide ist. Falls dieser kleiner 1 ist, wird eine Exception geworfen. Danach wird in einer Schleife n mal ein zufälliger Wert von directions mittels yield zurückgegeben, um den Vorteil von Generatoren auszunutzen. +
+_Annahme_: Für diese Methode muss ein Generator verwendet werden.
 
 Bei der *decode_walk* werden zwei Variablen für x und y benötigt und in einer Schleife alle Schritte von walk durchlaufen, je nach Richtung wird dann x und y erhöht oder verringert.
 
@@ -23,7 +24,7 @@ Die *distance_manhattan* berechnet die Manhattan-Distance, indem Start und Endpu
 
 Die *do_walk* ruft einfach die anderen Methoden auf und gibt walk und distance als Tuple zurück.
 
-Die *monte_carlo_walk_analysis* überprüft zu Beginn die Parameter auf Gültigkeit, ansonsten werden Exceptions geworfen. Anschließend wird in einer Schleife bis zu max_blocks gezählt und die do_walk Methode n Mal ausgeführt. Anschließend wird mittels max-Funktion die Maximaldistanz berechnet und als Key beim Dictionary für die aktuellen Wanderungen gesetzt.
+Die *monte_carlo_walk_analysis* überprüft zu Beginn die Parameter auf Gültigkeit, ansonsten werden Exceptions geworfen. Anschließend wird in einer Schleife bis zu max_blocks gezählt und die do_walk Methode n Mal ausgeführt. Anschließend wird beim Dictionary die Schrittanzahl als Key gesetzt und für die Werte die ermittelten Wanderungen.
 
 <<<
 == Testfälle
@@ -144,5 +145,5 @@ image::Tests.png[]
 
 [source, python]
 ----
-include::./Ue01.py[]
+include::../src/Ue01.py[]
 ----
