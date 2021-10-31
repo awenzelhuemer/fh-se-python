@@ -22,6 +22,8 @@ def get_degree(direction):
         return 90
     elif direction == 'W':
         return 180
+    else:
+        raise ValueError("Invalid direction")
 
 def get_random_color():
     """
