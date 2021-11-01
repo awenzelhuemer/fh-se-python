@@ -1,7 +1,6 @@
 import turtle
 import Basic_Library
-import random
-
+import matplotlib.pyplot as plt
 
 def get_degree(direction):
     """
@@ -13,7 +12,6 @@ def get_degree(direction):
     Returns:
         Rotation in degrees
     """
-
     if direction == 'N':
         return 270
     if direction == 'E':
@@ -25,17 +23,20 @@ def get_degree(direction):
     else:
         raise ValueError("Invalid direction")
 
-def get_random_color():
+def generate_unique_colors(n):
     """
-    Generates random number
+    Generates n unique colors
+
+    Parameters:
+        n: Number of unique colors
 
     Returns:
-        Random color as string
+        List with unique colors
     """
-    return "#" + ''.join([random.choice('0123456789ABCDEF') for i in range(6)])
+    return plt.get_cmap(lut=n, name="tab20c")
 
 
-def visualize_walk(t: turtle.Turtle, walk, start_pos: turtle.Vec2D):
+def visualize_walk(t: turtle.Turtle, walk, start_pos: turtle.Vec2D, color):
     """
     Visualizes a given path
 
@@ -49,9 +50,9 @@ def visualize_walk(t: turtle.Turtle, walk, start_pos: turtle.Vec2D):
     t.goto(start_pos)
     t.pendown()
     # Set color and start point
-    t.color(get_random_color())
+    t.color(color[:-1])
     t.dot()
-    # Set initial degree value (default is rotated to the right)
+    # Set initial degree value
     previous_degree = 0
     for direction in walk:
         degree = get_degree(direction)
@@ -70,13 +71,18 @@ def visualize_walks(t: turtle.Turtle, walks):
     """
     t.speed(500)
     (x, y) = t.pos()
-    for key in walks:
-        for walk in walks[key]:
-            visualize_walk(t, walk[0], (x, y))
-        # Add offset each time
-            x += 2
-            y += 2
+    colors = generate_unique_colors(len(walks))
+    index = 0
 
-visualize_walks(turtle.Turtle(), Basic_Library.monte_carlo_walk_analysis(10, repetitions=5))
+    for walk in walks:
+        visualize_walk(t, walk, (x, y), colors(index))
+        index += 1
+        # Add offset
+        x += 2
+        y += 2
+
+blocks = 15
+walks = [list(Basic_Library.generate_walk(blocks)) for _ in range(10)]
+visualize_walks(turtle.Turtle(), walks)
 
 turtle.mainloop()
