@@ -61,15 +61,22 @@ def visualize_walk(t: turtle.Turtle, walk, start_pos: turtle.Vec2D):
     # Set end point
     t.dot()
 
-t = turtle.Turtle()
-t.speed(500)
-(x, y) = t.pos()
-walks = Basic_Library.monte_carlo_walk_analysis(10, repetitions=5)
-for key in walks:
-    for walk in walks[key]:
-        visualize_walk(t, walk[0], (x, y))
+def visualize_walks(t: turtle.Turtle, walks):
+    """
+    Visualizes given paths
+
+    Parameters:
+        walks: List with walks
+    """
+    t.speed(500)
+    (x, y) = t.pos()
+    for key in walks:
+        for walk in walks[key]:
+            visualize_walk(t, walk[0], (x, y))
         # Add offset each time
-        x += 2
-        y += 2
+            x += 2
+            y += 2
+
+visualize_walks(turtle.Turtle(), Basic_Library.monte_carlo_walk_analysis(10, repetitions=5))
 
 turtle.mainloop()
