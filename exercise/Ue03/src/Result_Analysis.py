@@ -20,11 +20,11 @@ def roundtrips_with_length_4(walks: Dict):
 # can be omitted).
 def unique_roundtrips(walks: Dict):
     ''' Calculates all unique round trips '''
-    all_roundtrips = {length: [walk for walk, distance in walks[length] if distance == 0] for length in walks}
+    all_roundtrips = {length: [walk for walk, distance in walks[length] if distance == 0] for length in walks if length % 2 == 0}
 
     print("-- First 10 roundtrips --")
     first_ten_roundtrips = {length: all_roundtrips[length][:10] for length in all_roundtrips}
-    print(len(first_ten_roundtrips))
+    print(sum(len(first_ten_roundtrips[length]) for length in first_ten_roundtrips))
 
     print("-- Unique roundtrips --")
     flatted_roundtrips = [walk for key in all_roundtrips # Iterate over all round trips
