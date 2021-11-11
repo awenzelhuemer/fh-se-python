@@ -28,7 +28,7 @@ def roundtrips_with_length_4(walks: Dict):
 
 Rundreisen mit der Länge 4:
 ----
-1379
+1390
 ----
 
 <<<
@@ -36,9 +36,9 @@ Rundreisen mit der Länge 4:
 
 Die Comprehensions wurden aufgeteilt, um die Lesbarkeit zu erhöhen. Vorerst werden alle Rundreisen ermittelt, also wo die Distanz 0 beträgt. Dabei sind nur Rundreisen interessant, wo die Länge eine gerade Anzahl ist. Bei N, O, S würde es sicht z.B. um keine Rundreise handeln, bei N, O, S, W aber schon.
 
-Mittels [:10] können die ersten 10 Rundreisen ermittelt werden.
+Für eindeutige Rundreisen wurde jeder Wert in ein Tuple konvertiert und ein Dictionary erstellt.
 
-Für eindeutige Rundreisen wurde das Dictionary in eine einzige Liste umgewandelt. Anschließend wurde set aufgerufen, um doppelte Werte zu entfernen. Dazu wurde auch jede Reise in ein Tuple umgewandelt. Zum Schluss wurden diese wieder in eine Liste von Listen konvertiert.
+Mittels [:10] können die ersten 10 Rundreisen ermittelt werden.
 
 [source, python]
 ----
@@ -46,24 +46,21 @@ def unique_roundtrips(walks: Dict):
     ''' Calculates all unique round trips '''
     all_roundtrips = {length: [walk for walk, distance in walks[length] if distance == 0] for length in walks if length % 2 == 0}
 
-    print("-- First 10 roundtrips --")
-    first_ten_roundtrips = {length: all_roundtrips[length][:10] for length in all_roundtrips}
-    print(sum(len(first_ten_roundtrips[length]) for length in first_ten_roundtrips))
-
     print("-- Unique roundtrips --")
-    flatted_roundtrips = [walk for key in all_roundtrips # Iterate over all round trips
-                                for walk in all_roundtrips[key]] # Get walk from each dictionary entry
-    unique_roundtrip_set = set(tuple(trip) for trip in flatted_roundtrips) # By creating a set all duplicates get removed
-    all_unique_roundtrips = [list(trip) for trip in unique_roundtrip_set] # Convert tuples to list
-    print(len(all_unique_roundtrips))
+    unique_roundtrips = {length: {tuple(trip) for trip in all_roundtrips[length]} for length in all_roundtrips}
+    print(sum(len(unique_roundtrips[length]) for length in unique_roundtrips))
+
+    print("-- First 10 roundtrips --")
+    first_ten_roundtrips = {length: [trip for trip in list(unique_roundtrips[length])[:10]] for length in unique_roundtrips}
+    print(sum(len(first_ten_roundtrips[length]) for length in first_ten_roundtrips))
 ----
 
-Ersten 10 und eindeutige Rundreisen:
+Eindeutige Rundreisen:
 ----
--- First 10 roundtrips --
-250
 -- Unique roundtrips --
 6451
+-- First 10 roundtrips --
+250
 ----
 
 <<<
@@ -142,37 +139,59 @@ def straight_walks(walks: Dict):
     ''' Checks walks for straight walks'''
     print("-- Check straight walks --")
     # Check for each walk if it only contains one different element with the check_equal function
-    straight_walks = [walk for key in walks
-                            for walk, _ in walks[key] if check_equal(walk)]
-    straight_unique_walks_set = set(tuple(walk) for walk in straight_walks) # Remove duplicates by creating a set
-    straight_unique_walks = [list(walk) for walk in straight_unique_walks_set] # Change set to list
+    straight_walks = {length: [walk for walk, _ in walks[length] if check_equal(walk)] for length in walks}
+    straight_unique_walks = {length: {tuple(walk) for walk in straight_walks[length]} for length in straight_walks}
     pprint(straight_unique_walks)
 ----
 
 Gerade Wege:
 ----
- ['W', 'W', 'W', 'W', 'W', 'W', 'W'],
- ['N', 'N', 'N', 'N', 'N', 'N', 'N'],
- ['N', 'N', 'N', 'N', 'N', 'N'],
- ['S', 'S', 'S', 'S', 'S'],
- ['S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'],
- ['E', 'E', 'E'],
- ['N', 'N'],
- ['W', 'W'],
- ['W', 'W', 'W', 'W', 'W', 'W'],
- ['N', 'N', 'N'],
- ['E'],
- ['E', 'E'],
- ['S', 'S', 'S'],
- ['S', 'S'],
- ['E', 'E', 'E', 'E', 'E'],
- ['N', 'N', 'N', 'N', 'N', 'N', 'N', 'N'],
- ['E', 'E', 'E', 'E'],
- ['E', 'E', 'E', 'E', 'E', 'E'],
- ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
- ['S'],
- ['S', 'S', 'S', 'S', 'S', 'S'],
- ['W', 'W', 'W', 'W', 'W']]
+ -- Check straight walks --
+{1: {('N',), ('E',), ('S',), ('W',)},
+ 2: {('N', 'N'), ('E', 'E'), ('W', 'W'), ('S', 'S')},
+ 3: {('S', 'S', 'S'), ('N', 'N', 'N'), ('W', 'W', 'W'), ('E', 'E', 'E')},
+ 4: {('E', 'E', 'E', 'E'),
+     ('N', 'N', 'N', 'N'),
+     ('S', 'S', 'S', 'S'),
+     ('W', 'W', 'W', 'W')},
+ 5: {('E', 'E', 'E', 'E', 'E'),
+     ('N', 'N', 'N', 'N', 'N'),
+     ('S', 'S', 'S', 'S', 'S'),
+     ('W', 'W', 'W', 'W', 'W')},
+ 6: {('E', 'E', 'E', 'E', 'E', 'E'), ('W', 'W', 'W', 'W', 'W', 'W')},
+ 7: {('N', 'N', 'N', 'N', 'N', 'N', 'N'), ('E', 'E', 'E', 'E', 'E', 'E', 'E')},
+ 8: set(),
+ 9: set(),
+ 10: set(),
+ 11: set(),
+ 12: set(),
+ 13: set(),
+ 14: set(),
+ 15: set(),
+ 16: set(),
+ 17: set(),
+ 18: set(),
+ 19: set(),
+ 20: set(),
+ 21: set(),
+ 22: set(),
+ 23: set(),
+ 24: set(),
+ 25: set(),
+ 26: set(),
+ 27: set(),
+ 39: set(),
+ 40: set(),
+ 41: set(),
+ 42: set(),
+ 43: set(),
+ 44: set(),
+ 45: set(),
+ 46: set(),
+ 47: set(),
+ 48: set(),
+ 49: set(),
+ 50: set()}
 ----
 
 <<<

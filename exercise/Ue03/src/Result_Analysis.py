@@ -22,16 +22,13 @@ def unique_roundtrips(walks: Dict):
     ''' Calculates all unique round trips '''
     all_roundtrips = {length: [walk for walk, distance in walks[length] if distance == 0] for length in walks if length % 2 == 0}
 
-    print("-- First 10 roundtrips --")
-    first_ten_roundtrips = {length: all_roundtrips[length][:10] for length in all_roundtrips}
-    print(sum(len(first_ten_roundtrips[length]) for length in first_ten_roundtrips))
-
     print("-- Unique roundtrips --")
-    flatted_roundtrips = [walk for key in all_roundtrips # Iterate over all round trips
-                                for walk in all_roundtrips[key]] # Get walk from each dictionary entry
-    unique_roundtrip_set = set(tuple(trip) for trip in flatted_roundtrips) # By creating a set all duplicates get deleted
-    all_unique_roundtrips = [list(trip) for trip in unique_roundtrip_set] # Convert tuples to list
-    print(len(all_unique_roundtrips))
+    unique_roundtrips = {length: {tuple(trip) for trip in all_roundtrips[length]} for length in all_roundtrips}
+    print(sum(len(unique_roundtrips[length]) for length in unique_roundtrips))
+
+    print("-- First 10 roundtrips --")
+    first_ten_roundtrips = {length: [trip for trip in list(unique_roundtrips[length])[:10]] for length in unique_roundtrips}
+    print(sum(len(first_ten_roundtrips[length]) for length in first_ten_roundtrips))
 
 # Question 3
 # What is the average and median1 distance for walks of maximum lengths 5, 10,
@@ -74,14 +71,12 @@ def straight_walks(walks: Dict):
     ''' Checks walks for straight walks'''
     print("-- Check straight walks --")
     # Check for each walk if it only contains one different element with the check_equal function
-    straight_walks = [walk for key in walks
-                            for walk, _ in walks[key] if check_equal(walk)]
-    straight_unique_walks_set = set(tuple(walk) for walk in straight_walks) # Remove duplicates by creating a set
-    straight_unique_walks = [list(walk) for walk in straight_unique_walks_set] # Change set to list
+    straight_walks = {length: [walk for walk, _ in walks[length] if check_equal(walk)] for length in walks}
+    straight_unique_walks = {length: {tuple(walk) for walk in straight_walks[length]} for length in straight_walks}
     pprint(straight_unique_walks)
 
 def main():
-    walks = Basic_Library.monte_carlo_walk_analysis(50)
+    walks = Basic_Library.monte_carlo_walk_analysis(50, 10_000)
     roundtrips_with_length_4(walks)
     unique_roundtrips(walks)
     average_median(walks)
