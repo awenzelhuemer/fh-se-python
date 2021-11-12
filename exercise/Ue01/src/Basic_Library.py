@@ -8,7 +8,7 @@ import pprint
 
 directions = ('N', 'E', 'S', 'W')
 
-def generate_walk(block = 1):
+def generate_walk(blocks: int = 1):
     """
     Generates walk with block count
     
@@ -18,10 +18,10 @@ def generate_walk(block = 1):
     Returns:
         Iterable of random directions
     """
-    if(block < 1):
-        raise ValueError("Block has to be greater zero")
+    if blocks < 0:
+        raise ValueError("Blocks must be positive")
         
-    for _ in range(block):
+    for _ in range(blocks):
         yield random.choice(directions)
 
 def decode_walk(walk):
@@ -34,22 +34,21 @@ def decode_walk(walk):
     Returns:
         Calculated final position after walk
     """
-    dx = 0
-    dy = 0
+    x = 0
+    y = 0
    
     for direction in walk:
-        if(direction == 'N'):
-            dy += 1
-        elif(direction == 'S'):
-            dy -= 1
-        elif(direction == 'E'):
-            dx += 1
-        elif(direction == 'W'):
-            dx -= 1
+        if direction == 'N':
+            y += 1
+        elif direction == 'S':
+            y -= 1
+        elif direction == 'E':
+            x += 1
+        elif direction == 'W':
+            x -= 1
         else:
-            raise KeyError("Invalid direction")
-    return dx, dy
-
+            raise ValueError("Walk contains an invalid direction")
+    return (x, y)
 
 def distance_manhattan(start, end):
     
@@ -64,9 +63,12 @@ def distance_manhattan(start, end):
         Manhattan distance as an integer value
     """
     
-    return abs(start[0] - end[0]) + abs(start[1] - end[1])
+    # return sum([abs(s - e) for s, e in zip(start, end)])
+    result = 0
+    for s,e in zip(start, end):
+        result += abs(s - e)
+    return result
         
-
 def do_walk(blocks, dist = distance_manhattan):
     """
     Generates walk and calculates distance
@@ -78,10 +80,11 @@ def do_walk(blocks, dist = distance_manhattan):
     Returns:
         Tuple with generated walk and manhattan distance
     """
-    
     walk = list(generate_walk(blocks))
-    distance = dist((0, 0), decode_walk(walk))
-    return (walk, distance)
+    start = (0,0)
+    change = decode_walk(walk)
+    end = (start[0] + change[0], start[1] + change[1])
+    return (walk, dist(start, end))
 
 def monte_carlo_walk_analysis(max_blocks, repetitions = 10000):
     
@@ -96,10 +99,10 @@ def monte_carlo_walk_analysis(max_blocks, repetitions = 10000):
         Dictionary with max length as key and generated walks and distances as tuple
     """
     
-    if(max_blocks < 1):
+    if max_blocks < 0:
         raise ValueError("Max blocks have to be greater zero")
-    if(repetitions < 1):
-          raise ValueError("Repetition has to be greater zero")
+    if repetitions < 0:
+          raise ValueError("Repetitions have to be greater zero")
     
     walks = {}
     for blocks in range(1, max_blocks + 1):

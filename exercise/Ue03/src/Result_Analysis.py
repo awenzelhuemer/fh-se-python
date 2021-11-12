@@ -36,7 +36,7 @@ def unique_roundtrips(walks: Dict):
 def average_median(walks: Dict):
     ''' Calculates average and median for walks of length 5, 10, 15, 20 and 25.'''
     print("-- Average and median --")
-    for length in [5, 10, 15, 20, 25]:
+    for length in (5, 10, 15, 20, 25):
         distances = [distance for _, distance in walks[length]]
         print(f'Average for {length}: {statistics.mean(distances)}')
         print(f'Median for {length}: {statistics.median(distances)}')
@@ -44,13 +44,14 @@ def average_median(walks: Dict):
 # Question 4
 # What is the percentage of walks that end at a position with a maximum possible
 # distance from the starting distance per maximum walk length?
+
 def percentage_max_walk_distance(walks: Dict):
     ''' Calculates the percentage of walks that end at a position with a maximum distance.'''
     print("-- Percentage of max walks --")
-    walk_count = len([walk for key in walks for walk, _ in walks[key]])
-    max_distance_count = len([walk for key in walks
-                                        for walk, distance in walks[key] if distance == key])
-    print(f"{round((max_distance_count / walk_count) * 100, 2)}%")                                                
+    walk_count = len([walk for length in walks for walk, _ in walks[length]])
+    max_distance_count = len([walk for length in walks
+                                        for walk, distance in walks[length] if distance == length])
+    print(f"{round((max_distance_count / walk_count) * 100, 2)}%")                                     
 
 # Question 5
 # Which distinct straight walks have been generated; walks that continue in the
@@ -60,20 +61,22 @@ def percentage_max_walk_distance(walks: Dict):
 # checkEqual function.
 def check_equal(iterator):
     ''' Checks if each element in list has the same value'''
-    if len(iterator) == 0:
+    iterator = iter(iterator)
+    try:
+        first = next(iterator)
+        for value in iterator:
+                if(first != value):
+                    return False
+    except StopIteration:
         return True
-    for element in iterator:
-        if element != iterator[0]:
-            return False
     return True
 
 def straight_walks(walks: Dict):
     ''' Checks walks for straight walks'''
     print("-- Check straight walks --")
     # Check for each walk if it only contains one different element with the check_equal function
-    straight_walks = {length: [walk for walk, _ in walks[length] if check_equal(walk)] for length in walks}
-    straight_unique_walks = {length: {tuple(walk) for walk in straight_walks[length]} for length in straight_walks}
-    pprint(straight_unique_walks)
+    straight_walks = {length: [tuple(walk) for walk, _ in walks[length] if check_equal(walk)] for length in walks.keys()}
+    pprint(straight_walks)
 
 def main():
     walks = Basic_Library.monte_carlo_walk_analysis(50, 10_000)
