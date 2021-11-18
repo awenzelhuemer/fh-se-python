@@ -48,6 +48,7 @@ Zyklische Abhängigkeiten werden erkannt, wenn ein Objekt keine Referenzen von a
 Objekte, welche überbleiben, landen in der Generation 1 Liste.
 Die gleichen Schritte wie auch bei der Generation 0 Liste werden ausgeführt. Überlebende Objekte dieser Liste landen danach in der Generation 2 Liste. Diese Objekte bleiben für den ganzen Programmlauf bestehen.
 
+<<<
 == Sys & Garbage Collector Module
 
 Mit sys.getrefcount kann die Anzahl der Referenzen zurückgegeben werden. Der kleinstmögliche Wert beträgt dabei drei, da zwei Referenzen von der Funktion erstellt werden und einer durch die Objekterstellung vorhanden ist.
@@ -81,9 +82,14 @@ Mittels set_treshold kann festgelegt werden, ab wann die Garbage-Collection für
 Wenn set_treshold auf 0 gesetzt wird, wird die Garbage-Collection deaktiviert.
 Mit gc.collect() kann diese manuell für alle oder für einzelne Listen angestoßen werden.
 
+<<<
 == Memory Profiling Monte Carlo Walk Analysis
 
-Die Variante mit dem deaktivierten gen_walk Flag weißt dabei einen wesentlich geringeren Memory Peak auf als die originale Variante ohne Flag.
+Die Variante mit dem deaktivierten gen_walk Flag weißt dabei einen wesentlich geringeren Memory Peak auf als die originale Variante ohne Flag
+
+1. Zeile 87: Hier werden nur Distanzen zurückgegeben, anstelle der Walks None.
+2. Zeile 132: Das Dictionary enthält lediglich ein Tuple mit Distanzen und benötigt daher um einiges weniger Speicher
+3. Zeile 81: Die Walks aus der Generator-Function müssen bei deaktiviertem Flag nicht in eine Liste umgewandelt werden.
 
 ----
 Memory peak (monte_carlo_walk_analysis): 46826264
@@ -115,6 +121,7 @@ C:\Users\Andi\AppData\Local\Programs\Python\Python310\lib\random.py:375: size=41
 ----
 .Ausgabe
 
+<<<
 === Quellcode
 [source, python]
 ----
