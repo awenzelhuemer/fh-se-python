@@ -8,4 +8,4 @@ if __name__ == "__main__":
         for _, distance, in walks:
                 if distance <= max_walk_length:
                     walks_with_smaller_distance += 1
-        print(f"Walks with length of {length} are {(walks_with_smaller_distance / len(walks)) * 100:.2f}% short")
+        print(f"{(walks_with_smaller_distance / len(walks)):.4f}")

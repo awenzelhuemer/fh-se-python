@@ -23,8 +23,13 @@ Dies wird dann für jede Länge ausgegeben.
 
 Da für jede Länge die Generierung eines Walks 10000 mal wiederholt wird, entstehen sehr stabile Ergebnisse. Schwankungen werden durch die vielen Wiederholen ausgeglichen.
 
-=== What happens if you change the condition for a walk being short from having a distance of smaller or equal six to other numbers?
+Damit man aber tatsächlich sieht, dass die Ergebnisse ziemlich stabil sind, wurde das Programm 10 mal ausgeführt und ein Excel-Programm erstellt. Die Abweichung befinden sich dabei im 0.00.. Bereich, die Ergebnisse sind daher ziemlich stabil. 
 
+.Standard-Deviation bei 10 Wiederholungen des Python Programms
+image::{img}/StDev.png[]
+
+<<<
+=== What happens if you change the condition for a walk being short from having a distance of smaller or equal six to other numbers?
 Wenn die Bedingung verändert wird, verschiebt sich einfach die Wahrscheinlichkeit entsprechend. Wenn statt 6 5 als Bedingung verwendet wird, verschieben sich einfach die Wahrscheinlichkeiten um 1. Walks, welche kleiner sind als die Bedingung sind sowieso zu 100% kurz.
 
 === Can you identify a pattern for even and odd numbers?
