@@ -1,0 +1,247 @@
+= Übung 1
+:author: Andreas Wenzelhuemer
+:email: <S1910307106@fhooe.at>
+:reproducible:
+:experimental:
+:listing-caption: Listing
+:source-highlighter: rouge
+:src: ../src
+:img: ./img
+:toc:
+:numbered:
+:toclevels: 5
+:rouge-style: github
+
+<<<
+== Lösungsidee
+
+=== Eingabe mit Argumenten/Konsoleneingabe
+Mittels Eingabeparameter können Filename, CSV-Separator & Tabellenname (für SqLite-Tabellenname) angegeben werden.
+Alle Eingaben sind verpflichtet und können entweder über Kommandozeilenparameter oder Konsoleneingabe gesetzt werden.
+Die Eingabe sieht mit der Konsole folgendermaßen aus: `main.py <filename> <delimiter> <tablename>`.
+Hier könnte die Eingabe verbessert werden, indem die Argumente mittels Name gesetzt werden, dies wurde aber nicht umgesetzt, wäre aber mit entsprechenden Paketen sicher leicht möglich.
+Wenn die Eingaben nicht gesetzt werden, müssen diese über Konsoleneingabe gesetzt werden.
+Zusätzlich wird überprüft, ob das File auch tatsächlich existiert.
+Dazu wurde das os-Package verwendet.
+
+=== Überprüfung, ob File konvertiert werden kann
+Grundsätzlich wird lediglich überprüft, ob bei einem SQL-File die Tabelle auch entsprechend existiert.
+Bei JSON und CSV wird beim Einlesen automatisch auf die Gültigkeit überprüft, hier ist nicht mehr nötig.
+
+=== Erstellung Dateiverzeichnis
+Zu Beginn wird überprüft, ob bereits ein Ordner mit Namen des Files existiert.
+Wenn dies der Fall ist, wird mittels `shutil.rmtree` der Ordner inklusive der enthaltenen Files gelöscht.
+Anschließend wird ein neues Verzeichnis erstellt und das File hineinkopiert.
+Zusätzlich wird auch in das entsprechende Verzeichnis gewechselt.
+
+=== Einlesen von Files
+Txt-Files und Csv-Files werden hier gleich behandelt, es wird bei beiden versucht diese mit der Methode von pandas `read_csv` einzulesen.
+Es wird auch ein entsprechendes Trennzeichen gesetzt, je nachdem welches festgelegt wird.
+
+Bei der Datenbank wird versucht, eine Verbindung aufzubauen und anschließend das File mittels `read_sql` einzulesen. Der Tabellenname wird dabei explizit angegeben.
+
+Für Json Files wird `read_json` verwendet, mit der Option `orient=records` werden außerdem die Spaltennamen entsprechend gesetzt.
+
+=== Ausgeben von Files
+Dazu werden alle anderen Dateitypen durchlaufen und je nach Dateityp `to_csv`, `to_sql` oder `to_json` verwendet. Diese werden in ein eigenes Verzeichnis out gespeichert, daher muss vorher `makedirs` aufgerufen werden.
+
+=== Erstellung des Info-Files
+Mittels `with open as f` wird ein neues File erstellt, welches anschließend mit entsprechenden Informationen über das eingelesene File befüllt wird.
+
+Folgende Informationen werden gesetzt:
+
+- Eingabefiletyp
+- Zeilenanzahl
+- Spaltenanzahl
+- Spaltennamen
+- Ausgabefiletypen
+
+=== Ausnahmebehandlungen
+Für falsche Eingaben werden Exceptions geworfen, welche entsprechend abgearbeitet und ausgegeben werden. Daher gibt es in der Main-Methode einen `try except` Block.
+
+<<<
+=== Tests
+
+==== Gültiges JSON-File
+
+.test.json
+[source,json]
+----
+[
+  {
+    "Firstname": "Max",
+    "Lastname": "Mustermann"
+  },
+  {
+    "Firstname": "Maria",
+    "Lastname": "Musterfrau"
+  }
+]
+----
+
+==== Gültiges Text-File
+
+.test.txt
+[source,txt]
+----
+Firstname;Lastname
+Max;Mustermann
+Maria;Musterfrau
+----
+
+Eingabe
+----
+Allowed file types are ('.csv', '.txt', '.json', '.db')
+Enter filename: test.txt
+Enter csv separator: ,
+Enter sqlite table name: persons
+Info: Creating dir test
+Info: Copy file test.txt
+Info: Reading test.txt
+Info: Creating out dir
+Info: Creating file out/test.csv
+Info: Creating file out/test.json
+Info: Creating file out/test.db
+Info: Creating information.txt
+----
+
+==== Gültiges CSV-File
+
+.test.csv
+[source,csv]
+----
+Firstname;Lastname
+Max;Mustermann
+Maria;Musterfrau
+----
+
+Eingabe:
+----
+Allowed file types are ('.csv', '.txt', '.json', '.db')
+Enter filename: test.csv
+Enter csv separator: ;
+Enter sqlite table name: persons
+Info: Creating dir test
+Info: Copy file test.csv
+Info: Reading test.csv
+Info: Creating out dir
+Info: Creating file out/test.txt
+Info: Creating file out/test.json
+Info: Creating file out/test.db
+Info: Creating information.txt
+----
+
+==== Gültiges Datenbankfile
+
+.test.db
+image::{img}/4_ValidDatabase.png[]
+
+Eingabe:
+----
+Allowed file types are ('.csv', '.txt', '.json', '.db')
+Enter filename: test.db
+Enter csv separator: ;
+Enter sqlite table name: persons
+Info: Creating dir test
+Info: Copy file test.db
+Info: Reading test.db
+Info: Creating out dir
+Info: Creating file out/test.csv
+Info: Creating file out/test.txt
+Info: Creating file out/test.json
+Info: Creating information.txt
+----
+
+==== Ungültige File
+
+Eingabe eines Files, welches nicht existiert.
+----
+Allowed file types are ('.csv', '.txt', '.json', '.db')
+Enter filename: thisfiledoesnotexist.txt
+File thisfiledoesnotexist.txt does not exist
+----
+
+==== Eingabe über gesetzte Parameter
+
+Eingabe mit gesetzten Parametern
+
+.Argumente
+image::{img}/Arguments.png[]
+
+
+----
+Info: Creating dir test
+Info: Copy file test.txt
+Info: Reading test.txt
+Info: Creating out dir
+Info: Creating file out/test.csv
+Info: Creating file out/test.json
+Info: Creating file out/test.db
+Info: Creating information.txt
+----
+
+==== Eingabe mit einem Datenbankfile, wo Tabelle nicht existiert
+
+Tabelle existiert nicht.
+----
+Allowed file types are ('.csv', '.txt', '.json', '.db')
+Enter filename: test.db
+Enter csv separator: ;
+Enter sqlite table name: doesnotexist
+Info: Creating dir test
+Info: Copy file test.db
+test.db has no table doesnotexist
+----
+
+==== Generierung des Information-Files
+
+Folgende Eingabe führt zu entsprechendem Information-File.
+
+----
+Allowed file types are ('.csv', '.txt', '.json', '.db')
+Enter filename: test.csv
+Enter csv separator: ;
+Enter sqlite table name: persons
+Info: Creating dir test
+Info: Copy file test.csv
+Info: Reading test.csv
+Info: Creating out dir
+Info: Creating file out/test.txt
+Info: Creating file out/test.json
+Info: Creating file out/test.db
+Info: Creating information.txt
+----
+
+.information.txt
+[source,txt]
+----
+Input file type: .db
+Total row count: 2
+Total column count: 2
+Columns: ['Firstname', 'Lastname']
+Output file types: ['.txt', '.json', '.db']
+----
+
+==== Erstellung des richtigen Verzeichnisses
+
+Verzeichnis wird richtig erstellt.
+
+.Generated Directory
+image::{img}/generated_directory.png[]
+
+<<<
+=== Quellcode
+
+.main.py
+[source,py]
+----
+include::{src}/main.py[]
+----
+
+=== Bibliotheken
+
+.requirements.txt
+[source,py]
+----
+include::{src}/requirements.txt[]
+----
