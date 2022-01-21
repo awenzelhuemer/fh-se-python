@@ -5,9 +5,17 @@
 {% endblock %}
 
 {% block body %}
-    <h1 style="text-align: center">Update task</h1>
-    <form action="/update/{{ task.idx }}" method="post">
-        <input type="text" name="content" value="{{ task.content }}">
-        <button>Update task</button>
+    <h1 class="text-center">Update task</h1>
+    <form action="/update/{{ task.idx }}" method="post" class="row">
+        <div class="col-auto">
+            <label for="content" class="visually-hidden">Email</label>
+            <input class="form-control" id="content" type="text" name="content" value="{{ task.content }}">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-success">Update task</button>
+        </div>
+        <div class="col-auto">
+            <a type="button" class="btn btn-secondary" href="/">Cancel</a>
+        </div>
     </form>
 {% endblock %}

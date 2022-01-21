@@ -6,26 +6,39 @@
 
 {% block body %}
     <h1 style="text-align: center">Task Master</h1>
-    <table>
+    <form action="/" method="post" class="row">
+        <div class="col-auto">
+            <input class="form-control" type="text" name="content" id="content" autocomplete="off">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-success">Add task</button>
+        </div>
+    </form>
+    <table class="table table-striped table-sm mt-2 shadow">
+        <thead>
         <tr>
             <th>Task</th>
             <th>Added</th>
             <th>Action</th>
         </tr>
+        </thead>
+        <tbody>
         {% for task in tasks %}
             <tr>
                 <td>{{ task.content }}</td>
                 <td>{{ task.date_created.date() }}</td>
                 <td>
-                    <a href="/delete/{{ task.idx }}">Delete</a>
-                    <br/>
-                    <a href="/update/{{ task.idx }}">Update</a>
+                    <div class="row">
+                        <div class="col-auto">
+                            <a href="/delete/{{ task.idx }}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                        <div class="col-auto">
+                            <a href="/update/{{ task.idx }}" class="col-auto btn btn-sm btn-secondary">Update</a>
+                        </div>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
-    <form action="/" method="post">
-        <input type="text" name="content" id="content">
-        <button>Add task</button>
-    </form>
 {% endblock %}
