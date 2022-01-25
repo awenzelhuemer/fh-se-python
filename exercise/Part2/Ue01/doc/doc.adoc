@@ -26,7 +26,8 @@ Dazu wurde das os-Package verwendet.
 
 === Überprüfung, ob File konvertiert werden kann
 Grundsätzlich wird lediglich überprüft, ob bei einem SQL-File die Tabelle auch entsprechend existiert.
-Bei JSON und CSV wird beim Einlesen automatisch auf die Gültigkeit überprüft, hier ist nicht mehr nötig.
+Bei JSON und CSV wird beim Einlesen mittels Pandas automatisch auf die Gültigkeit überprüft, hier ist zusätzlich nichts mehr nötig.
+Leere Felder im CSV werden z.B. automatisch als `null` erkannt.
 
 === Erstellung Dateiverzeichnis
 Zu Beginn wird überprüft, ob bereits ein Ordner mit Namen des Files existiert.
@@ -60,9 +61,9 @@ Folgende Informationen werden gesetzt:
 Für falsche Eingaben werden Exceptions geworfen, welche entsprechend abgearbeitet und ausgegeben werden. Daher gibt es in der Main-Methode einen `try except` Block.
 
 <<<
-=== Tests
+== Tests
 
-==== Gültiges JSON-File
+=== Gültiges JSON-File
 
 .test.json
 [source,json]
@@ -79,7 +80,7 @@ Für falsche Eingaben werden Exceptions geworfen, welche entsprechend abgearbeit
 ]
 ----
 
-==== Gültiges Text-File
+=== Gültiges Text-File
 
 .test.txt
 [source,txt]
@@ -105,7 +106,7 @@ Info: Creating file out/test.db
 Info: Creating information.txt
 ----
 
-==== Gültiges CSV-File
+=== Gültiges CSV-File
 
 .test.csv
 [source,csv]
@@ -131,7 +132,7 @@ Info: Creating file out/test.db
 Info: Creating information.txt
 ----
 
-==== Gültiges Datenbankfile
+=== Gültiges Datenbankfile
 
 .test.db
 image::{img}/4_ValidDatabase.png[]
@@ -152,7 +153,7 @@ Info: Creating file out/test.json
 Info: Creating information.txt
 ----
 
-==== Ungültige File
+=== File existiert nicht
 
 Eingabe eines Files, welches nicht existiert.
 ----
@@ -161,7 +162,7 @@ Enter filename: thisfiledoesnotexist.txt
 File thisfiledoesnotexist.txt does not exist
 ----
 
-==== Eingabe über gesetzte Parameter
+=== Eingabe über gesetzte Parameter
 
 Eingabe mit gesetzten Parametern
 
@@ -180,7 +181,7 @@ Info: Creating file out/test.db
 Info: Creating information.txt
 ----
 
-==== Eingabe mit einem Datenbankfile, wo Tabelle nicht existiert
+=== Eingabe mit einem Datenbankfile, wo Tabelle nicht existiert
 
 Tabelle existiert nicht.
 ----
@@ -193,7 +194,7 @@ Info: Copy file test.db
 test.db has no table doesnotexist
 ----
 
-==== Generierung des Information-Files
+=== Generierung des Information-Files
 
 Folgende Eingabe führt zu entsprechendem Information-File.
 
@@ -222,26 +223,26 @@ Columns: ['Firstname', 'Lastname']
 Output file types: ['.txt', '.json', '.db']
 ----
 
-==== Erstellung des richtigen Verzeichnisses
+=== Erstellung des richtigen Verzeichnisses
 
 Verzeichnis wird richtig erstellt.
 
 .Generated Directory
 image::{img}/generated_directory.png[]
 
-<<<
-=== Quellcode
-
-.main.py
-[source,py]
-----
-include::{src}/main.py[]
-----
-
-=== Bibliotheken
+== Verwendete Bibliotheken
 
 .requirements.txt
 [source,py]
 ----
 include::{src}/requirements.txt[]
+----
+
+<<<
+== Quellcode
+
+.main.py
+[source,py]
+----
+include::{src}/main.py[]
 ----

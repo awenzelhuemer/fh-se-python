@@ -5,11 +5,21 @@ import sys
 from os.path import exists
 from shutil import copyfile
 import pandas as pd
+from pandas import DataFrame
 
 filetypes = ('.csv', '.txt', '.json', '.db')
 
 
-def validate_input() -> (str, str, str, str):
+class FileInput:
+
+    def __init__(self, filename: str, filetype: str, separator: str, table_name: str):
+        self.filename = filename
+        self.filetype = filetype
+        self.separator = separator
+        self.table_name = table_name
+
+
+def validate_input() -> FileInput:
 
     arg_count = len(sys.argv)
 
@@ -27,17 +37,17 @@ def validate_input() -> (str, str, str, str):
 
     filetype = get_filetype(filename)
 
-    if arg_count < 3:
+    if arg_count < 2:
         separator = input("Enter csv separator: ")
     else:
         separator = sys.argv[2]
 
-    if arg_count < 4:
+    if arg_count < 3:
         table_name = input("Enter sqlite table name: ")
     else:
         table_name = sys.argv[3]
 
-    return filename, filetype, separator, table_name
+    return FileInput(filename, filetype, separator, table_name)
 
 
 def get_filetype(name: str) -> str:
@@ -48,10 +58,34 @@ def get_filetype(name: str) -> str:
     raise ValueError(f'File {name} has invalid type')
 
 
+def parse_sqlite(filename: str, table_name: str) -> DataFrame:
+    conn = sqlite3.connect(filename)
+    c = conn.cursor()
+    c = c.execute(f"SELECT * FROM sqlite_master WHERE type='table' AND name='{table_name}';")
+    if c.fetchone() is None:
+        conn.close()
+        raise ValueError(f'{filename} has no table {table_name}')
+
+    conn = sqlite3.connect(filename)
+    df = pd.read_sql(f'select * from {table_name}', con=conn)
+    conn.close()
+    return df
+
+
+def parse_csv(filename: str, separator: str) -> DataFrame:
+    return pd.read_csv(filename, delimiter=separator)
+
+
+def parse_json(filename) -> DataFrame:
+    return pd.read_json(filename, orient='records')
+
+
 def main():
     try:
         # Get filename
-        filename, filetype, separator, table_name = validate_input()
+        file_input = validate_input()
+        filename = file_input.filename
+        filetype = file_input.filetype
         name = filename.removesuffix(filetype)
 
         if os.path.isdir(name):
@@ -63,23 +97,14 @@ def main():
         copyfile(filename, f'{name}/{filename}')
         os.chdir(name)
 
-        # Check Input
-        if filetype == '.db':
-            conn = sqlite3.connect(filename)
-            c = conn.cursor()
-            c = c.execute(f"SELECT * FROM sqlite_master WHERE type='table' AND name='{table_name}';")
-            if c.fetchone() is None:
-                raise ValueError(f'{filename} has no table {table_name}')
-
-        # Read Input
+        # Check and read Input
         print(f'Info: Reading {filename}')
         if filetype == '.csv' or filetype == '.txt':
-            df = pd.read_csv(filename,  delimiter=separator)
+            df = parse_csv(filename, separator=file_input.separator)
         elif filetype == '.db':
-            conn = sqlite3.connect(filename)
-            df = pd.read_sql(f'select * from {table_name}', con=conn)
+            df = parse_sqlite(filename, table_name=file_input.table_name)
         else:
-            df = pd.read_json(filename, orient='records')
+            df = parse_json(filename)
 
         # Write to output
         print('Info: Creating out dir')
@@ -89,10 +114,10 @@ def main():
             out_filename = f'out/{name}{filetype}'
             print(f'Info: Creating file {out_filename}')
             if filetype == '.csv' or filetype == '.txt':
-                df.to_csv(out_filename, sep=separator, index=False)
+                df.to_csv(out_filename, file_input.separator, index=False)
             elif filetype == '.db':
                 conn = sqlite3.connect(f'out/{name}.db')
-                df.to_sql(name=table_name, con=conn)
+                df.to_sql(name=file_input.table_name, con=conn)
             else:
                 df.to_json(out_filename, orient='records')
 
@@ -105,9 +130,9 @@ def main():
             f.write(f'Output file types: {output_filetypes}')
 
     except (IOError, ValueError) as e:
-        print(e)
+        print(f'Error: {e}')
     except BaseException as e:
-        print(f'Exception {e}')
+        print(f'Error: {e}')
 
 
 if __name__ == '__main__':
