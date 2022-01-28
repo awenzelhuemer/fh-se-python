@@ -144,5 +144,5 @@ def main(test_files: bool = False):
 
 
 if __name__ == "__main__":
-    main(test_files=False)
+    main(test_files=True)
 
