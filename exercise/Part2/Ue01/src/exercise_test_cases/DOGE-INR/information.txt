@@ -1,0 +1,5 @@
+Input file type: .db
+Total row count: 1540
+Total column count: 7
+Columns: ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
+Output file types: ['.txt', '.json', '.db']

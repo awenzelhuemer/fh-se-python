@@ -1,0 +1,5 @@
+Input file type: .db
+Total row count: 2000
+Total column count: 5
+Columns: ['clientid', 'income', 'age', 'loan', 'default']
+Output file types: ['.csv', '.json', '.db']

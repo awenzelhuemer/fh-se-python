@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>486</width>
+    <width>628</width>
     <height>597</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>ToDo List</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="addButton">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -32,12 +32,12 @@
      <rect>
       <x>40</x>
       <y>130</y>
-      <width>401</width>
+      <width>541</width>
       <height>391</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="deleteButton">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -50,7 +50,7 @@
      <string>Delete Task</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="clearButton">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -63,14 +63,27 @@
      <string>Clear List</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="taskText">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>20</y>
-      <width>401</width>
+      <width>541</width>
       <height>31</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="editButton">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>80</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edit Task</string>
     </property>
    </widget>
   </widget>
@@ -79,7 +92,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>486</width>
+     <width>628</width>
      <height>21</height>
     </rect>
    </property>

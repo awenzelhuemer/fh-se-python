@@ -1,0 +1,5 @@
+Input file type: .json
+Total row count: 38
+Total column count: 17
+Columns: ['Year', 'All-items', 'Food', 'Shelter', 'Household operations, furnishings and equipment', 'Clothing and footwear', 'Transportation', 'Gasoline', 'Health and personal care', 'Recreation, education and reading', 'Alcoholic beverages and tobacco products', 'All-items excluding food and energy', 'All-items excluding energy', 'Fresh fruit and vegetables', 'Energy', 'Goods', 'Services']
+Output file types: ['.csv', '.txt', '.json']

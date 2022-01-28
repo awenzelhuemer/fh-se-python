@@ -18,14 +18,15 @@
 === Eingabe mit Argumenten/Konsoleneingabe
 Mittels Eingabeparameter können Filename, CSV-Separator & Tabellenname (für SqLite-Tabellenname) angegeben werden.
 Alle Eingaben sind verpflichtet und können entweder über Kommandozeilenparameter oder Konsoleneingabe gesetzt werden.
-Die Eingabe sieht mit der Konsole folgendermaßen aus: `main.py <filename> <delimiter> <tablename>`.
-Hier könnte die Eingabe verbessert werden, indem die Argumente mittels Name gesetzt werden, dies wurde aber nicht umgesetzt, wäre aber mit entsprechenden Paketen sicher leicht möglich.
+Die Eingabe sieht mit der Konsole folgendermaßen aus: `main.py <filename> <delimiter>.
+Hier könnte die Eingabe verbessert werden, indem die Argumente mittels Name wie z.B --file oder --delimiter gesetzt werden, dies wurde aber nicht umgesetzt.
 Wenn die Eingaben nicht gesetzt werden, müssen diese über Konsoleneingabe gesetzt werden.
 Zusätzlich wird überprüft, ob das File auch tatsächlich existiert.
-Dazu wurde das os-Package verwendet.
+Dazu wurde das Standard-Paket os verwendet.
 
 === Überprüfung, ob File konvertiert werden kann
-Grundsätzlich wird lediglich überprüft, ob bei einem SQL-File die Tabelle auch entsprechend existiert.
+Grundsätzlich wird lediglich überprüft, ob bei einem SQL-File genau eine Tabelle existiert.
+Der Name kann mit der sqlite_master Tabelle ermittelt werden.
 Bei JSON und CSV wird beim Einlesen mittels Pandas automatisch auf die Gültigkeit überprüft, hier ist zusätzlich nichts mehr nötig.
 Leere Felder im CSV werden z.B. automatisch als `null` erkannt.
 
@@ -60,96 +61,131 @@ Folgende Informationen werden gesetzt:
 === Ausnahmebehandlungen
 Für falsche Eingaben werden Exceptions geworfen, welche entsprechend abgearbeitet und ausgegeben werden. Daher gibt es in der Main-Methode einen `try except` Block.
 
+=== Spezieller Test-Modus
+Um das Testen mit den ganzen Beispielfiles zu vereinfachen, wurde in der Main-Methode ein Bool-Flag ergänzt, mit dem automatisch alle Files im Verzeichnis "exercise_test_cases" ausgeführt werden.
+
+=== Konsolenausgaben
+Um Informationen und Fehler besser anzuzeigen, wurden entsprechend Informationen mit print ausgegeben und mit Error: oder Info: deklariert.
+
 <<<
 == Tests
 
-=== Gültiges JSON-File
+=== Testen aller Beispielfiles
 
-.test.json
-[source,json]
-----
-[
-  {
-    "Firstname": "Max",
-    "Lastname": "Mustermann"
-  },
-  {
-    "Firstname": "Maria",
-    "Lastname": "Musterfrau"
-  }
-]
-----
+Getestet wurden alle Beispielfiles aus Moodle.
+Zusätzlich wurde für jedes Dateiformat ein kurzes eigenes File erstellt.
+Zum Testen aller Files des Verzeichnisses `exercise_test_cases` muss das Flag `test_files` in der Main-Methode auf true gesetzt werden.
 
-=== Gültiges Text-File
+Alle Files wurden korrekt erstellt abgesehen von blog.json, da hier die Encodierung nicht passen dürfte.
+Beim File annual_gold_rate.txt wird eine Warning ausgegeben, dass die Tabellenspalten mit Leerzeichen erstellt werden.
+Dies führt aber zu keinen Problemen.
 
-.test.txt
-[source,txt]
 ----
-Firstname;Lastname
-Max;Mustermann
-Maria;Musterfrau
-----
-
-Eingabe
-----
-Allowed file types are ('.csv', '.txt', '.json', '.db')
-Enter filename: test.txt
-Enter csv separator: ,
-Enter sqlite table name: persons
-Info: Creating dir test
-Info: Copy file test.txt
-Info: Reading test.txt
-Info: Creating out dir
-Info: Creating file out/test.csv
-Info: Creating file out/test.json
-Info: Creating file out/test.db
+-------------- AnnualTicketSales.csv --------------
+Info: Creating dir AnnualTicketSales
+Info: Copy file AnnualTicketSales.csv
+Info: Reading AnnualTicketSales\AnnualTicketSales.csv
+Info: Creating out directory
+Info: Creating file AnnualTicketSales.txt
+Info: Creating file AnnualTicketSales.json
+Info: Creating file AnnualTicketSales.db
 Info: Creating information.txt
-----
-
-=== Gültiges CSV-File
-
-.test.csv
-[source,csv]
-----
-Firstname;Lastname
-Max;Mustermann
-Maria;Musterfrau
-----
-
-Eingabe:
-----
-Allowed file types are ('.csv', '.txt', '.json', '.db')
-Enter filename: test.csv
-Enter csv separator: ;
-Enter sqlite table name: persons
-Info: Creating dir test
-Info: Copy file test.csv
-Info: Reading test.csv
-Info: Creating out dir
-Info: Creating file out/test.txt
-Info: Creating file out/test.json
-Info: Creating file out/test.db
+-------------- annual_gold_rate.txt --------------
+Info: Creating dir annual_gold_rate
+Info: Copy file annual_gold_rate.txt
+Info: Reading annual_gold_rate\annual_gold_rate.txt
+C:\Users\Andi\Documents\GitHub\fh-se-python\exercise\Part2\Ue01\src\venv\lib\site-packages\pandas\core\generic.py:2872: UserWarning: The spaces in these column names will not be changed. In pandas versions < 0.14, spaces were converted to underscores.
+  sql.to_sql(
+Info: Creating out directory
+Info: Creating file annual_gold_rate.csv
+Info: Creating file annual_gold_rate.json
+Info: Creating file annual_gold_rate.db
 Info: Creating information.txt
-----
-
-=== Gültiges Datenbankfile
-
-.test.db
-image::{img}/4_ValidDatabase.png[]
-
-Eingabe:
-----
-Allowed file types are ('.csv', '.txt', '.json', '.db')
-Enter filename: test.db
-Enter csv separator: ;
-Enter sqlite table name: persons
-Info: Creating dir test
-Info: Copy file test.db
-Info: Reading test.db
-Info: Creating out dir
-Info: Creating file out/test.csv
-Info: Creating file out/test.txt
-Info: Creating file out/test.json
+-------------- belgium.db --------------
+Info: Creating dir belgium
+Info: Copy file belgium.db
+Info: Reading belgium\belgium.db
+Info: Creating out directory
+Info: Creating file belgium.csv
+Info: Creating file belgium.txt
+Info: Creating file belgium.json
+Info: Creating information.txt
+-------------- blog.json --------------
+Info: Creating dir blog
+Info: Copy file blog.json
+Info: Reading blog\blog.json
+Error: 'utf-8' codec can't decode byte 0xe4 in position 163: invalid continuation byte
+-------------- canada.db --------------
+Info: Creating dir canada
+Info: Copy file canada.db
+Info: Reading canada\canada.db
+Info: Creating out directory
+Info: Creating file canada.csv
+Info: Creating file canada.txt
+Info: Creating file canada.json
+Info: Creating information.txt
+-------------- credit_data.txt --------------
+Info: Creating dir credit_data
+Info: Copy file credit_data.txt
+Info: Reading credit_data\credit_data.txt
+Info: Creating out directory
+Info: Creating file credit_data.csv
+Info: Creating file credit_data.json
+Info: Creating file credit_data.db
+Info: Creating information.txt
+-------------- DOGE-INR.csv --------------
+Info: Creating dir DOGE-INR
+Info: Copy file DOGE-INR.csv
+Info: Reading DOGE-INR\DOGE-INR.csv
+Info: Creating out directory
+Info: Creating file DOGE-INR.txt
+Info: Creating file DOGE-INR.json
+Info: Creating file DOGE-INR.db
+Info: Creating information.txt
+-------------- One Piece json.json --------------
+Info: Creating dir One Piece json
+Info: Copy file One Piece json.json
+Info: Reading One Piece json\One Piece json.json
+Info: Creating out directory
+Info: Creating file One Piece json.csv
+Info: Creating file One Piece json.txt
+Info: Creating file One Piece json.db
+Info: Creating information.txt
+-------------- test1.csv --------------
+Info: Creating dir test1
+Info: Copy file test1.csv
+Info: Reading test1\test1.csv
+Info: Creating out directory
+Info: Creating file test1.txt
+Info: Creating file test1.json
+Info: Creating file test1.db
+Info: Creating information.txt
+-------------- test2.db --------------
+Info: Creating dir test2
+Info: Copy file test2.db
+Info: Reading test2\test2.db
+Info: Creating out directory
+Info: Creating file test2.csv
+Info: Creating file test2.txt
+Info: Creating file test2.json
+Info: Creating information.txt
+-------------- test3.txt --------------
+Info: Creating dir test3
+Info: Copy file test3.txt
+Info: Reading test3\test3.txt
+Info: Creating out directory
+Info: Creating file test3.csv
+Info: Creating file test3.json
+Info: Creating file test3.db
+Info: Creating information.txt
+-------------- test4.json --------------
+Info: Creating dir test4
+Info: Copy file test4.json
+Info: Reading test4\test4.json
+Info: Creating out directory
+Info: Creating file test4.csv
+Info: Creating file test4.txt
+Info: Creating file test4.db
 Info: Creating information.txt
 ----
 
@@ -183,15 +219,16 @@ Info: Creating information.txt
 
 === Eingabe mit einem Datenbankfile, wo Tabelle nicht existiert
 
-Tabelle existiert nicht.
+Test mit File, wo Tabelle nicht existiert.
 ----
 Allowed file types are ('.csv', '.txt', '.json', '.db')
-Enter filename: test.db
-Enter csv separator: ;
-Enter sqlite table name: doesnotexist
-Info: Creating dir test
-Info: Copy file test.db
-test.db has no table doesnotexist
+Enter filename: test2.db
+Enter csv separator: ,
+-------------- test2.db --------------
+Info: Creating dir test2
+Info: Copy file test2.db
+Info: Reading test2\test2.db
+Error: test2\test2.db has no table
 ----
 
 === Generierung des Information-Files

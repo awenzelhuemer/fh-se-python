@@ -1,0 +1,5 @@
+Input file type: .db
+Total row count: 2
+Total column count: 2
+Columns: ['Firstname', 'Lastname']
+Output file types: ['.csv', '.json', '.db']

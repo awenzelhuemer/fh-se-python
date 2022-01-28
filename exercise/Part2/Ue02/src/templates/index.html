@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Files Storage</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Files</h1>
+
+    <form method="post" action="/" class="row" enctype="multipart/form-data">
+        <div class="col-auto">
+            <label for="file">File</label>
+            <input type="file" id="file" name="file"
+                   accept=".csv,.txt,.json,.db">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary btn-sm">Add</button>
+        </div>
+    </form>
+
+    <table class="table table-striped table-sm mt-2 shadow">
+        <thead>
+        <tr>
+            <th>Filename</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for file in files %}
+            <tr>
+                <td>{{ file }}</td>
+                <td>
+                    <div class="row">
+                        <div class="col-auto">
+                            <a href="/delete/{{ file }}" class="btn btn-sm btn-primary">Show details</a>
+                        </div>
+                        <div class="col-auto">
+                            <a href="/delete/{{ file }}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                        <div class="col-auto">
+                            <form action="/export/{{ file }}" method="post">
+                                <select name="file_type">
+                                    <option value=".csv">CSV</option>
+                                    <option value=".txt">Text</option>
+                                    <option value=".db">Sqlite</option>
+                                    <option value=".json">JSON</option>
+                                </select>
+                                <button class="btn btn-sm btn-success">Export</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

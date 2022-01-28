@@ -1,0 +1,5 @@
+Input file type: .db
+Total row count: 27
+Total column count: 6
+Columns: ['YEAR', 'TICKETS SOLD', 'TOTAL BOX OFFICE', 'TOTAL INFLATION ADJUSTED BOX OFFICE', 'AVERAGE TICKET PRICE', 'Unnamed: 5']
+Output file types: ['.txt', '.json', '.db']

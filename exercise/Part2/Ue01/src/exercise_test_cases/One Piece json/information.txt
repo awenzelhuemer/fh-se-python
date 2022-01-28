@@ -1,0 +1,5 @@
+Input file type: .db
+Total row count: 958
+Total column count: 9
+Columns: ['Unnamed: 0', 'rank', 'trend', 'season', 'episode', 'name', 'start', 'total_votes', 'average_rating']
+Output file types: ['.csv', '.txt', '.db']
