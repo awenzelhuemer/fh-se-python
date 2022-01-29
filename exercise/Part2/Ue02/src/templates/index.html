@@ -7,14 +7,13 @@
 {% block body %}
     <h1 class="text-center">Files</h1>
 
-    <form method="post" action="/" class="row" enctype="multipart/form-data">
+    <form method="post" action="/" enctype="multipart/form-data" class="row">
         <div class="col-auto">
-            <label for="file">File</label>
-            <input type="file" id="file" name="file"
+            <input type="file" name="file" class="form-control form-control-sm"
                    accept=".csv,.txt,.json,.db">
         </div>
         <div class="col-auto">
-            <button class="btn btn-primary btn-sm">Add</button>
+            <button class="btn btn-success btn-sm">Add</button>
         </div>
     </form>
 
@@ -28,17 +27,15 @@
         <tbody>
         {% for file in files %}
             <tr>
-                <td>{{ file }}</td>
+                <td> <a href="/{{ file }}">{{ file }}</a></td>
                 <td>
                     <div class="row">
-                        <div class="col-auto">
-                            <a href="/details/{{ file }}" class="btn btn-sm btn-primary">Open details</a>
-                        </div>
                         <div class="col-auto">
                             <a href="/delete/{{ file }}" class="btn btn-sm btn-danger">Delete</a>
                         </div>
                         <div class="col-auto">
                             <form action="/export/{{ file }}" method="post">
+
                                 <select name="file_type">
                                     <option value=".csv">CSV</option>
                                     <option value=".txt">Text</option>
@@ -47,7 +44,6 @@
                                 </select>
                                 <button class="btn btn-sm btn-success">Export</button>
                             </form>
-
                         </div>
                     </div>
                 </td>
