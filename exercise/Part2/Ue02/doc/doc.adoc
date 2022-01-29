@@ -1,0 +1,175 @@
+= Übung 7
+:author: Andreas Wenzelhuemer
+:email: <S1910307106@fhooe.at>
+:reproducible:
+:experimental:
+:listing-caption: Listing
+:source-highlighter: rouge
+:src: ../src
+:img: ./img
+:toc:
+:numbered:
+:toclevels: 5
+:rouge-style: github
+
+<<<
+== Lösungsidee
+
+=== Auflistung aller Files
+Um alle Files aufzulisten, wurde eine Methode mit der Route / erstellt.
+Alle Filenamen in dem Verzeichnis `/uploaded_files` werden geladen und `render_template` mitgegeben.
+Im index.html wird dann über diese Liste iteriert und sie werden in einer Tabelle angezeigt.
+
+=== Laden eines Files
+Um die Daten eines Files anzuzeigen, gibt es die Methode mit der Route /<filename>.
+Auf die Detailseite gelangt man über das Anklicken des Dateinamens.
+Das File wird entsprechend als Pandas-Dataframe geparsed und bei `render_template` zusätzlich mit dem Dateinamen mitgegeben.
+Falls ein Fehler auftreten sollte (z.B. Filename existiert nicht), wird auf die Startseite weitergeleitet.
+Ansonsten wird im details.html über das DataFrame iteriert.
+Mit einer zweidimensionalen Schleife kann über `df.values` auf die einzelnen Werte zugegriffen werden und diese entsprechend in einem `<td>` angezeigt werden.
+Für die Überschriften wird einfach über `df.columns` iteriert.
+
+=== Hinzufügen neuer Files
+Dazu gibt es im index.html ein Input-Element vom Typen `file`.
+Mittels Post-Methode kann ein File hinzugefügt werden.
+Mit `request.files['file']` kann auf das in der Form angegebene File zugegriffen werden.
+Es wird entsprechend überprüft, ob das File existiert und ob es hinzugefügt werden kann und einen gültigen Dateitypen aufweist.
+Anschließend wird das File im Verzeichnis `uploaded_files` gespeichert.
+
+=== Löschen von Files
+Dazu gibt es die Methode mit der Route /delete/<filename>.
+Das File wird einfach aus dem entsprechenden Verzeichnis entfernt.
+
+=== Exportieren von Files
+Hier lässt sich mittels Select für jede Zeile das entsprechende Format auswählen.
+Beim Select wurden die Dateiformate statisch eingetragen, da das dynamische Setzen über einen Parameter beim 'render_template' nicht funktioniert hat.
+Nach dem Drücken auf Export wird die Methode mit der Route `/export/<filename>` aufgerufen.
+Das File wird als Dataframe geladen und in das Verzeichnis `temp` mit entsprechendem Dateiformat gespeichert.
+Schlussendlich kann mit der Methode `send_from_directory` das File an den Client zum Download gesendet werden. 
+
+=== Löschen von Zeilen oder Spalten
+In der Detailansicht gibt es bei jeder Zeile und Spalte einen Button zum Löschen.
+Mit `df.drop` kann der entsprechende Eintrag entfernt werden.
+Der Methode selbst wird die ausgewählte Zeile oder Spalte mitgegeben.
+Wenn es keine Einträge mehr gibt, wird das File gelöscht und auf die Startseite zurückgegangen.
+
+=== Editieren und Löschen von Einträgen
+Dazu gibt es eine eigene Ansicht edit.html.
+Wenn auf den Edit-Button bei einer der Zellen gedrückt wird, öffnet sich ein weiteres Fenster, wo der Wert bearbeitet werden kann.
+Der aktuelle Wert lässt sich mit Zeilen und Spaltenindex ermitteln.
+Der Wert kann auch komplett gelöscht werden, er wird dann auf `Nothing` gesetzt.
+Nach dem Editieren der Werte wird der DataFrame aktualisiert und entsprechend abgespeichert.
+
+=== Anmerkung
+
+- Als Trennzeichen für CSV-Files kann nur , verwendet werden
+- Datenbankfiles müssen genau eine Tabelle beinhalten
+
+<<<
+== Tests
+
+=== Korrekte Anzeige der Übersicht
+
+Übersicht wird korrekt angezeigt.
+
+.Übersicht
+image::{img}/overview.png[]
+
+=== Hinzufügen eines gültigen Files
+
+File wird korrekt hinzugefügt.
+
+.Übersicht vor Hinzufügen
+image::{img}/overview_add.png[]
+
+.Übersicht nach Hinzufügen
+image::{img}/overview_after_add.png[]
+
+=== Hinzufügen eines ungültigen Files
+
+Ungültiges File wird nicht hochgeladen und hinzugefügt.
+
+.Übersicht vor Hinzufügen (xlsx)
+image::{img}/add_invalid_file.png[]
+
+.Konsole: Uploaden eines ungültigen Files
+image::{img}/add_invalid_file_error.png[]
+
+=== Korrekte Anzeige einer Detailseite
+
+Daten werden in tabellarischer Form angezeigt.
+
+.DODGE-INR.csv
+image::{img}/detail_doge_inr.png[]
+
+=== Exportieren eines Files
+
+File test.csv kann als test.db exportiert werden.
+
+image::{img}/after_export_db.png[]
+
+=== Löschen von Spalten und Zeilen
+
+Spalte Low wird entfernt mittels X Button.
+
+.Aktuelle Ansicht
+image::{img}/detail_doge_inr.png[]
+
+.Löschen der Spalte Low
+image::{img}/detail_doge_inr_column_deleted.png[]
+
+Erste Zeile mit '2017-11-11' wird gelöscht.
+
+.Löschen der ersten Zeile
+image::{img}/detail_doge_inr_row_deleted.png[]
+
+=== Aktualisieren eines Wertes
+
+Wert Open in der ersten Zeile wird auf 1234.0 aktualisiert.
+
+.Seite zum Editieren
+image::{img}/update_value.png[]
+
+.Nach Editieren (Wert wurde auf 1234.0 gesetzt)
+image::{img}/detail_doge_inr_updated.png[]
+
+== Verwendete Bibliotheken
+
+.requirements.txt
+[source,txt]
+----
+include::{src}/requirements.txt[]
+----
+
+<<<
+== Quellcode
+
+.main.py
+[source,py]
+----
+include::{src}/app.py[]
+----
+
+.base.html
+[source,html]
+----
+include::{src}/templates/base.html[]
+----
+
+.details.html
+[source,html]
+----
+include::{src}/templates/details.html[]
+----
+
+.edit.html
+[source,html]
+----
+include::{src}/templates/edit.html[]
+----
+
+.index.html
+[source,html]
+----
+include::{src}/templates/index.html[]
+----
