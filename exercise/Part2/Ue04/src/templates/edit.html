@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Files Storage</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Edit entry</h1>
+    <form action="/edit/{{ filename }}/{{ row_index }}/{{ column_index }}" method="post">
+
+        <label for="entry"></label>
+        <input id="entry" type="text" name="value" value="{{ value }}">
+
+        <button class="btn btn-sm btn-success" type="submit">Update value</button>
+        <a class="btn btn-sm btn-secondary" href="/details/{{ filename }}">Cancel</a>
+        <a class="btn btn-sm btn-danger" href="/delete-value/{{ filename }}/{{ row_index }}/{{ column_index }}">Delete value</a>
+    </form>
+{% endblock %}
