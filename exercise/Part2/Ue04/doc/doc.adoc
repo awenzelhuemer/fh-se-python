@@ -1,0 +1,126 @@
+= Übung 9
+:author: Andreas Wenzelhuemer
+:email: <S1910307106@fhooe.at>
+:reproducible:
+:experimental:
+:listing-caption: Listing
+:source-highlighter: rouge
+:src: ../src
+:img: ./img
+:toc:
+:numbered:
+:toclevels: 5
+:rouge-style: github
+
+<<<
+== Lösungsidee
+
+Für das Scraping von Github-Organizations wurde das Flask Projekt verwendet.
+Zum Eingeben der Github Url wurde ein eigenes Textfeld ergänzt.
+
+Wenn eine Url angegeben wurde, wird mittels Action `github-url` die entsprechende Methode aufgerufen.
+Zu Beginn wird die Url validiert (muss mit https://github beginnen und beim Abruf den Status 200 zurückliefern), anschließend werden die Daten extrahiert.
+Daten-Scraping und Validierung erfolgt in einem eigenen File `github_helper.py`.
+Hier werden zu Beginn allgemeine Informationen zur Organisation und alle Repositories mittels Paged-Requests ermittelt.
+Anschließend wird jedes Repository durchgegangen und die spezifischen Informationen gescraped.
+Die Daten werden anschließend als JSON zurückgegeben und als .csv abgespeichert.
+Damit die allgemeinen Informationen in der Übersicht korrekt angezeigt werden, werden diese in einer eigenen Datenbank fileinfo gespeichert.
+Hier gibt es dann Spalten für name, url, languages, repository_count und members_count.
+Für die Übersicht werden diese Daten dann geladen und entsprechend in eigenen Spalten angezeigt.
+
+Annahmen:
+
+- Files oder Github-Urls sind eindeutig
+- Es werden bei der Url keine ungültigen Zeichen hinzugefügt
+- Löschen von Files erfolgt rein über Gui, ansonsten muss das die Datenbank `fileinfo.db` angepasst werden.
+
+<<<
+== Tests
+
+=== Hinzufügen einer Github-Organisation
+
+Hinzufügen meiner Bachelorarbeit-Organisation von Micro-Frontends.
+
+.Übersicht
+image::{img}/micro-frontends.png[]
+
+.Übersicht nach Hinzufügen (Languages sind leer, da diese offensichtlich erst nachgeladen werden)
+image::{img}/micro-frontends_result.png[]
+
+.Tabelle
+image::{img}/micro-frontends_table.png[]
+
+=== Hinzufügen einer großen Github-Organization (dotnet)
+
+Hinzufügen von https://github.com/dotnet mit 211 Repositories.
+Nach mehreren Minuten waren alle Repositories gescraped und gespeichert.
+
+.Übersicht
+image::{img}/dotnet-sdk.png[]
+
+.Übersicht nach Hinzufügen
+image::{img}/dotnet-sdk_result.png[]
+
+.Tabelle
+image::{img}/dotnet-sdk_table.png[]
+
+=== Hinzufügen mit einer ungültigen Url
+
+.Hinzfügen einer ungültige Url
+image::{img}/invalid-url.png[]
+
+.Ausgabe des Fehlers
+image::{img}/dotnet-sdk_result.png[]
+
+== Verwendete Bibliotheken
+
+.requirements.txt
+[source,txt]
+----
+include::{src}/requirements.txt[]
+----
+
+<<<
+== Quellcode
+
+.app.py
+[source,py]
+----
+include::{src}/app.py[]
+----
+
+.file_helper.py
+[source,py]
+----
+include::{src}/file_helper.py[]
+----
+
+.github_helper.py
+[source,py]
+----
+include::{src}/github_helper.py[]
+----
+
+.base.html
+[source,html]
+----
+include::{src}/templates/base.html[]
+----
+
+.details.html
+[source,html]
+----
+include::{src}/templates/details.html[]
+----
+
+.edit.html
+[source,html]
+----
+include::{src}/templates/edit.html[]
+----
+
+.index.html
+[source,html]
+----
+include::{src}/templates/index.html[]
+----

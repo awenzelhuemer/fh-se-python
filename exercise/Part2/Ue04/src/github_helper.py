@@ -7,7 +7,7 @@ github_base_url = "https://github.com"
 
 
 def get_github_members(url: str):
-    url = f"{url.replace('github.com', 'github.com/orgs')}/people"
+    url = f"{url.replace(github_base_url, github_base_url + '/orgs')}/people"
     response = requests.get(url)
     doc = BeautifulSoup(response.text, 'html.parser')
     return doc.select('a[id*="member-"]')
@@ -51,10 +51,10 @@ def extract_github_data(url: str):
     repository_data = []
 
     for repo in repositories:
-        response = requests.get(f"{github_base_url}{repo}")
+        response = requests.get(repo)
         content = BeautifulSoup(response.text, 'html.parser')
 
-        repository_name = repo.removeprefix('/')
+        repository_name = repo.removeprefix(github_base_url + "/")
 
         aboutbox = content.find("h2", text='About').findParent()
         description_info = aboutbox.find('p', {'class': 'f4'})
@@ -124,6 +124,5 @@ def is_valid_github_url(url):
             raise ValueError('Invalid response')
 
         return True
-    except Exception as ex:
-        print(f"Exception: {ex}")
+    except:
         return False
