@@ -7,10 +7,21 @@ github_base_url = "https://github.com"
 
 
 def get_github_members(url: str):
+    page = 0
+    all_members = []
     url = f"{url.replace(github_base_url, github_base_url + '/orgs')}/people"
-    response = requests.get(url)
-    doc = BeautifulSoup(response.text, 'html.parser')
-    return doc.select('a[id*="member-"]')
+
+    while True:
+        page = page + 1
+        paged_url = f"{url}?page={page}"
+        doc = BeautifulSoup(requests.get(paged_url).text, 'html.parser')
+        members = doc.select('a[id*="member-"]')
+        if len(members) == 0:
+            break
+        for member in members:
+            all_members.append(member.text.strip())
+
+    return all_members
 
 
 def get_github_repositories(url: str):

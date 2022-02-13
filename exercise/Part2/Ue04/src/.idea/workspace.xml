@@ -2,20 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="212bed5c-4d20-4503-94b7-62bd50ab7308" name="Changes" comment="Add exercise 4">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp/AnnualTicketSales.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp/One Piece json.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp/heal-research.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp/heal-research.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp/heal-research.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp/microfrontend-restaurants.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp/microfrontend-restaurants.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp/microfrontend-restaurants.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploaded_files/AnnualTicketSales.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploaded_files/heal-research.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fileinfo.db" beforeDir="false" afterPath="$PROJECT_DIR$/fileinfo.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/github_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/github_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploaded_files/dotnet.csv" beforeDir="false" afterPath="$PROJECT_DIR$/uploaded_files/dotnet.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../lesson/Part2/Ue04/Exercise_5_Pandas.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../lesson/Part2/Ue04/Exercise_5_Pandas.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../lesson/Part2/Ue04/Lecture_Notes_Pandas_Raw.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../lesson/Part2/Ue04/Lecture_Notes_Pandas_Raw.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +91,9 @@
       <workItem from="1643462247280" duration="1349000" />
       <workItem from="1643466651594" duration="8344000" />
       <workItem from="1643999510486" duration="19333000" />
-      <workItem from="1644165498520" duration="3423000" />
+      <workItem from="1644165498520" duration="4099000" />
+      <workItem from="1644351320772" duration="88000" />
+      <workItem from="1644781784902" duration="1242000" />
     </task>
     <task id="LOCAL-00001" summary="Add exercise 4">
       <created>1644018601953</created>
@@ -135,24 +128,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/file_helper.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="54" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/app.py</url>
           <line>72</line>
           <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/github_helper.py</url>
-          <line>32</line>
-          <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/src$src.coverage" NAME="src Coverage Results" MODIFIED="1644168746126" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/src$src.coverage" NAME="src Coverage Results" MODIFIED="1644782561485" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
