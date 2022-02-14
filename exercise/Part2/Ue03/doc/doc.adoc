@@ -1,0 +1,134 @@
+= Übung 8
+:author: Andreas Wenzelhuemer
+:email: <S1910307106@fhooe.at>
+:reproducible:
+:experimental:
+:listing-caption: Listing
+:source-highlighter: rouge
+:src: ../src
+:img: ./img
+:toc:
+:numbered:
+:toclevels: 5
+:rouge-style: github
+
+<<<
+== Lösungsidee
+
+Es gibt ein Hauptfenster, wo eine Übersicht aller Files angezeigt wird.
+Für die Detailansicht wird ein weiterer Dialog geöffnet, wo die Tabelle des Files entsprechend angezeigt wird.
+Dies funktioniert mittels Doppelklick auf die entsprechende Zeile.
+Dort wird dann eine Tabelle mit den Daten angezeigt und mittels Buttons können Werte gelöscht, aktualisiert (hier wird eigener Dialog geöffnet) bzw. Zeilen, Spalten entfernt werden.
+Für die Verwendung der `TableView` mit Pandas wurde ein eigenes Model erstellt, welches von `QAbstractTableModel` ableitet.
+
+Files werden im Folder `uploaded_files` abgespeichert.
+Exportierte Files werden einfach in den Folder `export` im Projektverzeichnis abgespeichert.
+
+Folgende Annahmen wurden für die Lösung getroffen:
+
+- Es werden nur CSV-Files mit Beistrichen als Trennzeichen verwendet. Das Trennzeichen kann nicht umgestellt werden.
+
+Für das Speichern, Validieren und Laden von Files wurden die Methoden aus den anderen Übungen übernommen.
+
+Die GUI wurde mit dem Qt-Designer erstellt und wurden unter dem Ordner `ui` gespeichert.
+
+<<<
+== Tests
+
+Zusätzlich zum Hinzufügen aller Testfiles aus Moodle wurde ein kompletter Programmdurchlauf getestet und mit Screenshots dokumentiert.
+
+Neues File "belgium.db" wird hinzugefügt.
+
+.Hinzufügen eines neuen Files
+image::{img}/AddNewFileDialog.png[pdfwidth=65%]
+
+Übersicht wurde aktualisiert um Eintrag "belgium.db".
+
+.Übersicht nach Hinzufügen
+image::{img}/FileOverview.png[pdfwidth=65%]
+
+<<<
+File "AnnualTicketSales.csv" wird gelöscht.
+
+.Übersicht nach Löschen
+image::{img}/AfterDelete.png[pdfwidth=65%]
+
+File "belgium.db" wird als csv exportiert.
+
+.Export
+image::{img}/Export.png[pdfwidth=65%]
+
+<<<
+Detailansicht wird mit Doppelklick geöffnet.
+
+.Detailansicht
+image::{img}/DetailBelgium.png[pdfwidth=65%]
+
+Erste Zeile wird gelöscht (Global Rank 76).
+
+.Zeile wird gelöscht
+image::{img}/DetailBelgium_FirstRowDeleted.png[pdfwidth=65%]
+
+<<<
+Letzte Spalte wird entfernt (Market Value).
+
+.Zeile wird gelöscht
+image::{img}/DetailBelgium_LastColumnDeleted.png[pdfwidth=65%]
+
+Company-Name der ersten Zeile wird gelöscht.
+
+.Zellenwert wird entfernt
+image::{img}/DetailBelgium_CompanyNameCleared.png[pdfwidth=65%]
+
+<<<
+Zellenwert von Global-Rank der ersten Zeile wird aktualisiert.
+
+.Edit-Dialog
+image::{img}/DetailBelgium_GlobalRankUpdate.png[pdfwidth=65%]
+
+Daten in der ersten Zeile wurden erfolgreich aktualisiert.
+
+.Detailansicht mit aktualisiertem Wert
+image::{img}/DetailBelgium_GlobalRankAfterUpdate.png[pdfwidth=65%]
+
+<<<
+== Verwendete Bibliotheken
+
+.requirements.txt
+[source,txt]
+----
+include::{src}/requirements.txt[]
+----
+
+<<<
+== Quellcode
+
+.app.py
+[source,py]
+----
+include::{src}/app.py[]
+----
+
+.detail_dialog.py
+[source,py]
+----
+include::{src}/detail_dialog.py[]
+----
+
+.edit_cell_dialog.py
+[source,py]
+----
+include::{src}/edit_cell_dialog.py[]
+----
+
+.pandas_model.py
+[source,py]
+----
+include::{src}/pandas_model.py[]
+----
+
+.file_helper.py
+[source,py]
+----
+include::{src}/file_helper.py[]
+----

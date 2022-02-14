@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="212bed5c-4d20-4503-94b7-62bd50ab7308" name="Changes" comment="Add exercise 4">
+    <list default="true" id="212bed5c-4d20-4503-94b7-62bd50ab7308" name="Changes" comment="Fix exercise 4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fileinfo.db" beforeDir="false" afterPath="$PROJECT_DIR$/fileinfo.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/github_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/github_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../lesson/Part2/Ue04/Exercise_5_Pandas.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../lesson/Part2/Ue04/Exercise_5_Pandas.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../../lesson/Part2/Ue04/Lecture_Notes_Pandas_Raw.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../lesson/Part2/Ue04/Lecture_Notes_Pandas_Raw.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +89,8 @@
       <workItem from="1643999510486" duration="19333000" />
       <workItem from="1644165498520" duration="4099000" />
       <workItem from="1644351320772" duration="88000" />
-      <workItem from="1644781784902" duration="1242000" />
+      <workItem from="1644781784902" duration="1669000" />
+      <workItem from="1644823249592" duration="42000" />
     </task>
     <task id="LOCAL-00001" summary="Add exercise 4">
       <created>1644018601953</created>
@@ -102,7 +99,21 @@
       <option name="project" value="LOCAL" />
       <updated>1644018601953</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fix exercise 4">
+      <created>1644783253250</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1644783253250</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fix exercise 4">
+      <created>1644783267157</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1644783267157</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -122,7 +133,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Add exercise 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add exercise 4" />
+    <MESSAGE value="Fix exercise 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix exercise 4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
