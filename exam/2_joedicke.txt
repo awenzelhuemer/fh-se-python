@@ -1,0 +1,81 @@
+Serializierung:
+ - Serializierung: In Format umwandeln, welches abgespeichert werden kann
+- Deserialization: Wieder in Objekt in Speichern umwandeln
+- Mit JSON, YAML oder Pickle möglich
+- pickle.dump, pickle.load
+
+Varianten zum Speichern/Laden:
+
+JSON:
+f = open()
+f.close()
+
+with open('file', 'w') as f:
+json.dump
+data = json.load
+
+SQLite3:
+import sqlite3
+conn = sqlite3.connect('example.db')
+c = conn.cursor()
+c.execute('''SELECT * FROM table''')
+c.executescript()
+c.fetchall()
+conn.commit()
+
+NumPy (in C entwicklelt, Array wird als ein Block gespeichert und hat fixe Länge):
+Arrays müssen homogen sein
+np.array([1,2,3])
+np.ones()
+np.empty()
+np.append()
+Entfernen mit delete
+np.sort() vs np.ndarray.sort() => Sortiert in Place und nicht retourniert
+Shape Manipulation:
+    appending
+    concatenating
+    stacking
+    splitting
+    reshaping
+Basic Operations:
+    Sum, Difference, Product
+Algebra:
+    Transpose
+    Inverse
+    Unit matrix
+    Eigenvalues
+
+Pandas:
+ - Gibt Series (eindimensional) und DataFrames (mehrdimensional)
+ - pdf.read_csv, pdf.to_csv
+ - loc, iloc, [], direct attribute access
+ - df[:10].loc[['a', 'b']], df.loc[:10, ['a', 'b']]
+
+Web stuff:
+ Jinja (Template engine for python):
+ - Statements {% dostuff %}
+ - Expressions {{ expr }}
+ - Comments {# comment #}
+ Databases (SQL Alchemy):
+ - OR Mapper
+ - 1. Flask Objekt erstellen, URI for Datenbank setzen (app = Flask(__name__)    app.run())
+ - 2. Objekt aus SQL Alchemy erstellen (db = SQLAlchemy(app))
+ - 3. ORM Operationen
+ - 4. Datenbank erstellen
+
+ PyQt5:
+ - Qt Widget Toolkit
+ - Gibt Application, MainWindow, Widgets, Layouts & Styles
+ - app = QtWidgets.QApplication([]) win = QtWidgets.QMainWindow() win.show()
+ - Python File kann von Designer erstellt werden
+
+ Web Scraping:
+ - Web Requests mittels requests danach parsen (Parse tree) mit Beautiful Soup
+ - requests:
+  - exceptions, ressions, authentication, encoding, cookies
+  - return instance of response object
+- BeautifulSoup:
+ - soup = BeautifulSoup(r.text, 'html.parser')
+ - soup.prettify()
+ - x = doc.findAll("div", {"class": "post"})
+ - hrefX = x.get("href")

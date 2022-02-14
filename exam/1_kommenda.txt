@@ -1,0 +1,76 @@
+Python: Interpretierte Sprachen, einfacher logischer Code, unterstützt Garbage Collection
+
+type(): Variablentyp
+dir(): Liste der geladenen Objekten
+help(): Returniert die Dokumentation eines Objekts
+
+Underscores:
+- Single Lone Underscores _ => Result of last expression
+- Single Leading Underscore _var => Namenskonvention für private Variablen
+- Single Trailing Underscore var_ => Namenskonflikte
+- Double Leading Underscore __var => Name in Klassencontext umgeschrieben (sealed) _Class__method
+- Double Leading and Trailing Underscore => Special Methods defined by Python (Dunder)
+
+Duck typing (ähnlich wie dynamic in C#):
+ - Wenn Klasse Funktion hat, passt das vom Typ her
+
+Import:
+ - import module
+ - import module as m
+ - from module import [name]
+ - from module import * (nicht verwenden)
+
+Parameter:
+ - Default mit value = None anstelle von []
+ - *args transforms args into tuple
+ - **args transforms args into dictionary
+
+ Unpacking:
+  - * Werte einer Liste
+  - ** Alle Tuples eines Dictionaries
+
+Iterators & Iterable:
+ - Ist ein Objekt, was __next__() implementiert
+ - Iterator wirft StopIteration
+ - Iterable Objekte stellen __iter__() zur Verfügung
+ - Können für Schleifen, List Comprehensions usw. verwendet werden
+
+Iterable is an object, which one can iterate over. It generates an Iterator when passed to iter() method. Iterator is an object, which is used to iterate over an iterable object using __next__() method. Iterators have __next__() method, which returns the next item of the object.
+
+Map/Filter/Reduce
+ - Map
+ - Filter
+ - Reduce
+
+Comprehensions
+ - (x for x in collection if condition) Generator Comprehensions:
+    Werte werden erst erstellt, wenn angefragt bei Iterable
+ - {x for x in collection if condition} Set Comprehensions
+ - [x for x in collection if condition] List Comprehensions
+
+ Generators:
+ - Generators sind Funktionen und verhalten sich wie Iterators
+ - z.B. mit yield
+ - return throws StopIteration 
+
+Closures: Funktionen mit gebundenen Variablen, Funktionalität um Daten zu verstecken, z.B. mit Lambda Funktion
+Currying: Abändern einer Funktion, so dass diese nur ein Argument enthält => Wird oft verwendet um einen Teil einer Funktion zu enthalten
+Decorators mit functools.update_wrapper bzw. wraps
+
+Main:
+ - if __name__ == "__main__": Variable ändert sich je nachdem wie aufgerufen => Wenn als Script
+ - Funktioniert auch mit __init__.py für Verzeichnisse
+
+ Scopes:
+  - Local scope (Function scope)
+  - Enclosing scope (Outer function scope)
+  - Global scope (Top most scope of the program)
+  - Built-in scope (Special scope for default stuff)
+
+  global: Zuweisung einer Variable auf globalen Scope
+  nonlocal: Geht auf außenliegenden Scope
+
+  Garbage Collection:
+  - Jedes Objekte bezieht Typ, Wert und Referenzzähler
+  - Wenn Referenzcount 0 erreicht wird Objekt freigegeben
+  - Bei jedem Programmlauf werden drei Listen erstellt (Gen 0, 1, 2) => Schritte werden immer wieder ausgeführt für jede Liste
